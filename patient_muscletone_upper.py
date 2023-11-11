@@ -1,11 +1,11 @@
 from kivy.lang import Builder
 from kivymd.app import MDApp
-
+from patient_muscletone_lower import PatientMuscletoneLower
 KV = '''
 FloatLayout:
     canvas.before:
         Color:
-            rgba: 0.784, 0.784, 0.941, 1.0  # Lavender background color (RGBA values)
+            rgba: 1, 1, 1, 1.0  # White background color (RGBA values)
         Rectangle:
             pos: self.pos
             size: self.size
@@ -115,7 +115,7 @@ FloatLayout:
         on_press: app.next()                  
 '''
 
-class Test(MDApp):
+class PatientMuscletoneUpper(MDApp):
     limb_textfield_ids = {
         "shoulder": ("shoulder_left_textfield", "shoulder_right_textfield"),
         "elbow": ("elbow_left_textfield", "elbow_right_textfield"),
@@ -171,8 +171,10 @@ class Test(MDApp):
                 print(f"Muscle tone test for Upper limb :: {limb}:")
                 print(f"Left: {left_range}")
                 print(f"Right: {right_range}")
+            self.stop() 
+            PatientMuscletoneLower().run()       
             
            
 
 if __name__ == '__main__':
-    Test().run()
+    PatientMuscletoneUpper().run()

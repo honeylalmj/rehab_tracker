@@ -1,11 +1,16 @@
 from kivy.lang import Builder
 from kivymd.app import MDApp
+from patient_verification import PatientVerification
+import random
+from kivymd.uix.dialog import MDDialog
+from kivymd.uix.button import MDRaisedButton
+from send_email import send_email
 
 KV = '''
 FloatLayout:
     canvas.before:
         Color:
-            rgba: 0.784, 0.784, 0.941, 1.0  # Lavender background color (RGBA values)
+            rgba: 1, 1, 1, 1.0  # White background color (RGBA values)
         Rectangle:
             pos: self.pos
             size: self.size
@@ -81,10 +86,12 @@ FloatLayout:
         on_press: app.next()
 '''
 
-class Test(MDApp):
+class PatientPersonalDetails(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.screen = Builder.load_string(KV)
+        self.verification_code = random.randint(100000,999999)
+        self.patient_id = random.randint(1000,9999)
 
     def build(self):
         # Bind validation and error handling for text fields
@@ -133,7 +140,22 @@ class Test(MDApp):
         else:
             instance_textfield.error = False
             instance_textfield.helper_text = ""
-
+    def show_verification_Dialog(self):
+        dialog = MDDialog(
+            text="Verification code with Patient ID sent successfully",
+            buttons=[
+                MDRaisedButton(
+                    text="OK",
+                    on_release=lambda x: self.handle_verification_success_dialog_dismiss(dialog)
+                )
+            ]
+        )
+        dialog.open()
+    
+    def handle_verification_success_dialog_dismiss(self,dialog):
+        dialog.dismiss()
+        self.stop() 
+        PatientVerification(self.verification_code,self.patient_id).run()
     def next(self):
     # Implement your logic for the "Next" button here
     # You can access the text from the text fields using self.screen.ids
@@ -196,6 +218,11 @@ class Test(MDApp):
             print(f"Postal Code: {postal_code}")
             print(f"Patient Email: {patient_email}")
             print(f"Patient Mobile Number: {patient_mobile_number}")
+            send_email(patient_name,self.verification_code,self.patient_id,patient_email)
+            self.show_verification_Dialog()
+            
+
+           
 
 if __name__ == "__main__":
-    Test().run()
+    PatientPersonalDetails().run()

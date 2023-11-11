@@ -6,13 +6,12 @@ from kivymd.uix.boxlayout import MDBoxLayout
 class MainApp(MDApp):
     def build(self):
         screen = MDScreen()
-        # Lavender background for the screen (RGB values as floats)
-        screen.md_bg_color = (0.784, 0.784, 0.941, 1.0)
+        # Set the background color to white (RGB values as floats)
+        screen.md_bg_color = (1, 1, 1, 1)  # White background color
 
         layout = MDBoxLayout(orientation='vertical')
-        # Background color for the layout (RGB values as floats)
-        layout.md_bg_color = (0.784, 0.784, 0.941, 1.0)
-        
+        # Set the background color for the layout to white (RGB values as floats)
+        layout.md_bg_color = (1, 1, 1, 1)  # White background color
 
         label = MDLabel(text="Rehab Tracker", halign="center")
         layout.add_widget(label)

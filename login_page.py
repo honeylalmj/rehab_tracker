@@ -3,13 +3,17 @@ from kivymd.app import MDApp
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 from kivymd.icon_definitions import md_icons
+from kivy.core.window import Window
+from account_creation import AccountCreation
+from add_patient import AddPatient
+from kivymd.uix.button import MDRaisedButton
 import json
 
 KV = '''
 FloatLayout:
     canvas.before:
         Color:
-            rgba: 0.784, 0.784, 0.941, 1.0  # Lavender background color (RGBA values)
+            rgba: 1, 1, 1, 1.0  # White background color (RGBA values)
         Rectangle:
             pos: self.pos
             size: self.size
@@ -51,61 +55,95 @@ FloatLayout:
         text_color: "black"
         pos_hint: {"center_x": 0.5, "center_y": 0.2}
         size_hint:0.3,0.1
+        on_press :  app.create_account()
                
 '''
 
-class Test(MDApp):
-    def __init__(self, **kwargs):
+class LoginPage(MDApp):
+    def __init__(self,login_id, **kwargs):
         super().__init__(**kwargs)
         self.screen = Builder.load_string(KV)
-        self.dialog = None  # Initialize dialog instance
+        
+        self.login_id = login_id
 
+    def on_start(self):
+        if self.login_id != "None":
+            self.screen.ids.text_field_error.text = self.login_id
+    
     def build(self):
         return self.screen
 
     def read_data(self):
         try:
-            with open("username.json", "r") as file:
-                user_name = json.load(file)
-            return user_name
+            with open("data.json", "r") as file:
+                user_data = json.load(file)
+                data = user_data["111"]
+            return data
         except (FileNotFoundError, KeyError):
             print("username not found in json")
             return {}
 
-    def create_dialog(self, text):
-        if self.dialog:
-            self.dialog.text = text  # Update dialog text
-        else:
-            self.dialog = MDDialog(
-                text=text,
+    def showlogin_exists__dialog(self):
+        dialog = MDDialog(
+            text="Login successful",
+            buttons=[
+                MDRaisedButton(
+                    text="OK",
+                    on_release=lambda x: self.handle_login_success_dialog_dismiss(dialog)
+                )
+            ]
+        )
+        dialog.open()
+    
+    def handle_login_success_dialog_dismiss(self,dialog):
+        dialog.dismiss()
+        self.stop()
+        AddPatient().run()
+
+    def showlogin_not_exists_dialog(self):
+        dialog = MDDialog(
+                text="username or password wrong",
                 buttons=[
                     MDFlatButton(
-                        text="CANCEL",
+                        text="OK",
                         theme_text_color="Custom",
                         text_color=self.theme_cls.primary_color,
-                    ),
-                    MDFlatButton(
-                        text="DISCARD",
-                        theme_text_color="Custom",
-                        text_color=self.theme_cls.primary_color,
+                        on_release=lambda x: dialog.dismiss()  # Add on_release function
                     ),
                 ],
             )
-        self.dialog.open()
+        dialog.open()
+    def showlogin_not_exists_data_dialog(self):
+        dialog = MDDialog(
+                text="username or password doesn't exists",
+                buttons=[
+                    MDFlatButton(
+                        text="OK",
+                        theme_text_color="Custom",
+                        text_color=self.theme_cls.primary_color,
+                        on_release=lambda x: dialog.dismiss()  # Add on_release function
+                    ),
+                ],
+            )
+        dialog.open()
 
     def login(self):
         username = self.screen.ids.text_field_error.text.strip()
         password = self.screen.ids.text_field_error1.text.strip()
         user_data = self.read_data()
-        if username and password:
-            if user_data and username in user_data and password in user_data[username]:
-                print(username)
-                print(password)
+        if user_data:
+            if username in user_data and password == user_data[username]["password"]:
+                self.showlogin_exists__dialog()
             else:
-                self.create_dialog("Username or password error")
+                self.showlogin_not_exists_dialog()
         else:
-            print("Please enter username and password")
-            self.create_dialog("Please enter correct username and password")
+            self.showlogin_not_exists_data_dialog()
+
+    def create_account(self) :
+        self.stop()
+        AccountCreation().run()
+
+
 
 if __name__ == "__main__":
-    Test().run()
+    LoginPage("log").run()

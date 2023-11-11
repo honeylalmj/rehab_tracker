@@ -1,11 +1,16 @@
 from kivy.lang import Builder
 from kivymd.app import MDApp
+from kivymd.uix.dialog import MDDialog
+from kivymd.uix.button import MDRaisedButton
+
+
+import json
 
 KV = '''
 FloatLayout:
     canvas.before:
         Color:
-            rgba: 0.784, 0.784, 0.941, 1.0  # Lavender background color (RGBA values)
+            rgba: 1, 1, 1, 1.0  # White background color (RGBA values)
         Rectangle:
             pos: self.pos
             size: self.size
@@ -39,8 +44,8 @@ FloatLayout:
         size_hint: 0.55, 0.1
 
     MDTextField:
-        id: text_field_mobilenumber
-        hint_text: "Mobile number"
+        id: text_field_password
+        hint_text: "Create password"
         mode: "rectangle"
         pos_hint: {"center_x": 0.5, "center_y": 0.5}
         size_hint: 0.55, 0.1
@@ -60,10 +65,57 @@ FloatLayout:
         on_press: app.register()
 '''
 
-class Test(MDApp):
+class AccountCreation(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.screen = Builder.load_string(KV)
+        self.data = {"111":{}}
+
+    def save_file(self) :
+        with open ("data.json","w") as file :
+            json.dump(self.data,file)
+
+            file.close()
+
+    def read_file(self) :
+        try:
+            with open("database.json","r") as file :
+                user_data = json.load(file)
+                data = user_data["222"]
+                return data
+        except(FileNotFoundError, KeyError):
+            print("license number not found in database")
+            return {}
+    def show_license_exists_dialog(self):
+        dialog = MDDialog(
+            text="The license number exists in the database.",
+            buttons=[
+                MDRaisedButton(
+                    text="OK",
+                    on_release=lambda x: self.handle_license_exists_dialog_dismiss(dialog)
+                )
+            ]
+        )
+        dialog.open()
+
+    def handle_license_exists_dialog_dismiss(self, dialog):
+        dialog.dismiss()
+        self.stop()
+        from login_page import LoginPage
+        LoginPage(self.screen.ids.text_field_licensenumber.text).run()
+
+
+    def show_license_not_exists_dialog(self):
+        dialog = MDDialog(
+            text="Entered license number doesn't exist in the database.",
+            buttons=[
+                MDRaisedButton(
+                    text="OK",
+                    on_release=lambda x: dialog.dismiss()
+                )
+            ]
+        )
+        dialog.open()
 
     def build(self):
         # Bind validation and error handling for text fields
@@ -79,7 +131,7 @@ class Test(MDApp):
             on_text_validate=self.set_error_message,
             on_focus=self.set_error_message,
         )
-        self.screen.ids.text_field_mobilenumber.bind(
+        self.screen.ids.text_field_password.bind(
             on_text_validate=self.set_error_message,
             on_focus=self.set_error_message,
         )
@@ -102,17 +154,25 @@ class Test(MDApp):
             instance_textfield.helper_text = ""
 
     def register(self):
-        first_name = self.screen.ids.text_field_firstname.text.strip()
+        first_name = self.screen.ids.text_field_firstname.text.capitalize()
         last_name = self.screen.ids.text_field_lastname.text.strip()
         license_number = self.screen.ids.text_field_licensenumber.text.strip()
-        mobile_number = self.screen.ids.text_field_mobilenumber.text.strip()
+        password = self.screen.ids.text_field_password.text.strip()
         email = self.screen.ids.text_field_email.text.strip()
+        user_database = self.read_file()
 
+        user_data = {
+            "first_name" : first_name,
+            "last_name"  : last_name,
+            "password"   : password,
+            "email"      : email
+            }
+        
         # Reset error messages for all fields
         self.screen.ids.text_field_firstname.error = False
         self.screen.ids.text_field_lastname.error = False
         self.screen.ids.text_field_licensenumber.error = False
-        self.screen.ids.text_field_mobilenumber.error = False
+        self.screen.ids.text_field_password.error = False
         self.screen.ids.text_field_email.error = False
 
         if not first_name:
@@ -127,18 +187,27 @@ class Test(MDApp):
             self.screen.ids.text_field_licensenumber.error = True
             self.screen.ids.text_field_licensenumber.helper_text = "Required field"
 
-        if not mobile_number:
-            self.screen.ids.text_field_mobilenumber.error = True
-            self.screen.ids.text_field_mobilenumber.helper_text = "Required field"
+        if not password:
+            self.screen.ids.text_field_password.error = True
+            self.screen.ids.text_field_password.helper_text = "Required field"
 
         if not email:
             self.screen.ids.text_field_email.error = True
             self.screen.ids.text_field_email.helper_text = "Required field"
 
-        if first_name and last_name and license_number and mobile_number and email:
-            # Implement your registration logic here
-            # For example, you can print the input data
-            print(f"Registered: {first_name}, {last_name}, {license_number}, {mobile_number}, {email}")
+        if first_name and last_name and license_number and password and email:
+            if license_number in user_database and first_name == user_database[license_number]["first_name"] :
+                self.show_license_exists_dialog()
+                self.data["111"][license_number] = user_data
+                self.save_file()
+                
+            else:
+                self.show_license_not_exists_dialog()
+
+            
+
+            # print(f"Registered: {{firstname: {first_name}, lastname: {last_name}, license number: {license_number}, password: {password}, email: {email}}}")
+
 
 if __name__ == "__main__":
-    Test().run()
+    AccountCreation().run()
