@@ -2,7 +2,7 @@ from kivy.lang import Builder
 from kivy.metrics import dp
 from kivy.properties import StringProperty
 from kivy.uix.screenmanager import Screen
-
+from patient_pain import PatientPain
 from kivymd.uix.list import OneLineIconListItem
 from kivymd.app import MDApp
 from kivymd.uix.menu import MDDropdownMenu
@@ -12,7 +12,7 @@ KV = '''
 FloatLayout:
     canvas.before:
         Color:
-            rgba: 0.784, 0.784, 0.941, 1.0  # Lavender background color (RGBA values)
+            rgba: 1, 1, 1, 1.0  # White background color (RGBA values)
         Rectangle:
             pos: self.pos
             size: self.size
@@ -93,7 +93,7 @@ FloatLayout:
 class IconListItem(OneLineIconListItem):
     icon = StringProperty()
 
-class Test(MDApp):
+class PatientAssesment(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.screen = Builder.load_string(KV)
@@ -137,6 +137,12 @@ class Test(MDApp):
         self.menu.dismiss()     
 
     def build(self):
+        self.screen.ids.date_button.bind(
+            on_text=self.set_error_message,
+        )
+        self.screen.ids.drop_item.bind(
+            on_text=self.set_error_message,
+        )
         self.screen.ids.text_field_age.bind(
             on_text=self.set_error_message,
         )
@@ -153,7 +159,7 @@ class Test(MDApp):
         return self.screen
 
     def set_error_message(self, instance_textfield, value):
-        if not instance_textfield.text.strip():
+        if not instance_textfield.text.strip() or (instance_textfield == self.screen.ids.drop_item and value == "select"):
             instance_textfield.error = True
             instance_textfield.helper_text = "Required field"
         else:
@@ -161,28 +167,35 @@ class Test(MDApp):
             instance_textfield.helper_text = ""
 
     def next(self):
-        # Check if any of the required fields are empty
-        age = self.screen.ids.text_field_age.text.strip()
-        sex = self.screen.ids.drop_item.text.strip()
-        past_medical_history = self.screen.ids.past_textfield.text.strip()
-        present_medical_history = self.screen.ids.present_textfield.text.strip()
-        physical_examination = self.screen.ids.textfield_physical.text.strip()
-        selected_date = self.screen.ids.date_button.text.strip()
+       # Check if any of the required fields are empty
+        date = self.screen.ids.date_button.text
+        age = self.screen.ids.text_field_age.text
+        sex = self.screen.ids.drop_item.text
+        past_medical_history = self.screen.ids.past_textfield.text
+        present_medical_history = self.screen.ids.present_textfield.text
+        physical_examination = self.screen.ids.textfield_physical.text
+        
 
         # Reset error messages for all fields
+        self.screen.ids.date_button.error = False
         self.screen.ids.text_field_age.error = False
         self.screen.ids.drop_item.error = False
         self.screen.ids.past_textfield.error = False
         self.screen.ids.present_textfield.error = False
         self.screen.ids.textfield_physical.error = False
-        self.screen.ids.date_button.error = False
+        
 
         if not age:
             self.screen.ids.text_field_age.error = True
             self.screen.ids.text_field_age.helper_text = "Required field"
 
+        if not date:
+            self.screen.ids.date_button.error = True
+            self.screen.ids.date_button.helper_text = "Required field"    
+
         if not sex:
             self.screen.ids.drop_item.error = True
+            self.screen.ids.drop_item.helper_text = "Required field"
 
         if not past_medical_history:
             self.screen.ids.past_textfield.error = True
@@ -196,16 +209,14 @@ class Test(MDApp):
             self.screen.ids.textfield_physical.error = True
             self.screen.ids.textfield_physical.helper_text = "Required field"
 
-        if not selected_date or selected_date == "Select Date":
-            self.screen.ids.date_button.error = True
 
         if (
             age
-            and sex
+            and (not self.screen.ids.date_button.error)
+            and (sex != "select")
             and past_medical_history
             and present_medical_history
             and physical_examination
-            and selected_date
         ):
             # Implement your logic to process the input data here
             # For example, you can print the input data
@@ -214,7 +225,10 @@ class Test(MDApp):
             print(f"Past Medical History: {past_medical_history}")
             print(f"Present Medical History: {present_medical_history}")
             print(f"Physical Examination: {physical_examination}")
-            print(f"Selected Date: {selected_date}")
+            print(f"Selected Date: {date}")
+            self.stop()
+            PatientPain().run()
+
 
 if __name__ == "__main__":
-    Test().run()
+    PatientAssesment().run()

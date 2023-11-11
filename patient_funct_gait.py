@@ -1,12 +1,13 @@
 from kivy.lang import Builder
 from kivymd.app import MDApp
+from patient_treatment import PatientTreatment
 
 
 KV = '''
 FloatLayout:
     canvas.before:
         Color:
-            rgba: 0.784, 0.784, 0.941, 1.0  # Lavender background color (RGBA values)
+            rgba: 1, 1, 1, 1.0  # White background color (RGBA values)
         Rectangle:
             pos: self.pos
             size: self.size
@@ -65,7 +66,7 @@ FloatLayout:
 
 
 
-class Test(MDApp):
+class PatientFunctGait(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.screen = Builder.load_string(KV)
@@ -144,6 +145,8 @@ class Test(MDApp):
             print(f"Functional evaluation :: Coordination: {coordination}")
             print(f"Gait anaylysis : {gait_analysis}")
             print(f"Activity limitations : {activity}")
+            self.stop()
+            PatientTreatment().run()    
             
 if __name__ == "__main__":
-    Test().run()
+    PatientFunctGait().run()

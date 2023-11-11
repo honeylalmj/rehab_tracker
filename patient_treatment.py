@@ -9,7 +9,7 @@ KV = '''
 FloatLayout:
     canvas.before:
         Color:
-            rgba: 0.784, 0.784, 0.941, 1.0  # Lavender background color (RGBA values)
+            rgba: 1, 1, 1, 1.0  # White background color (RGBA values)
         Rectangle:
             pos: self.pos
             size: self.size
@@ -69,7 +69,7 @@ class IconListItem(OneLineIconListItem):
     icon = StringProperty()
 
 
-class Test(MDApp):
+class PatientTreatment(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.screen = Builder.load_string(KV)
@@ -111,10 +111,13 @@ class Test(MDApp):
         self.screen.ids.treatment_textfield.bind(
             on_text=self.set_error_message, 
         )
+        self.screen.ids.drop_item.bind(
+            on_text=self.set_error_message,
+        )
         return self.screen
 
     def set_error_message(self, instance_textfield, value):
-        if not instance_textfield.text.strip():
+        if not instance_textfield.text.strip() or (instance_textfield == self.screen.ids.drop_item and value == "select"):
             instance_textfield.error = True
             instance_textfield.helper_text = "Required field"
         else:
@@ -124,10 +127,10 @@ class Test(MDApp):
     def next(self):
         # Check if any of the required fields are empty
        
-        short_term_plan = self.screen.ids.shortplan_textfield.text.strip()
-        long_term_plan = self.screen.ids.longplan_textfield.text.strip()
-        treatment = self.screen.ids.treatment_textfield.text.strip()
-        prognosis = self.screen.ids.drop_item.text.strip()
+        short_term_plan = self.screen.ids.shortplan_textfield.text
+        long_term_plan = self.screen.ids.longplan_textfield.text
+        treatment = self.screen.ids.treatment_textfield.text
+        prognosis = self.screen.ids.drop_item.text
        
 
         # Reset error messages for all fields
@@ -153,12 +156,13 @@ class Test(MDApp):
 
         if not prognosis:
             self.screen.ids.drop_item.error = True
+            self.screen.ids.drop_item.helper_text = "Required field"
         
         if (
             short_term_plan
             and long_term_plan
             and treatment
-            and prognosis
+            and (prognosis != "select")
         ):
             # Implement your logic to process the input data here
             # For example, you can print the input data
@@ -166,6 +170,7 @@ class Test(MDApp):
             print(f"Treatment plan :: Long term goal: {long_term_plan}")
             print(f"Treatment : {treatment}")
             print(f"Prognosis : {prognosis}")
+            self.stop()    
             
 if __name__ == "__main__":
-    Test().run()
+    PatientTreatment().run()

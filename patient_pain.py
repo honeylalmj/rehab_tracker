@@ -1,11 +1,12 @@
 from kivy.lang import Builder
 from kivymd.app import MDApp
+from patient_range import PatientRange
 
 KV = '''
 FloatLayout:
     canvas.before:
         Color:
-            rgba: 0.784, 0.784, 0.941, 1.0  # Lavender background color (RGBA values)
+            rgba: 1, 1, 1, 1.0  # White background color (RGBA values)
         Rectangle:
             pos: self.pos
             size: self.size
@@ -147,7 +148,7 @@ FloatLayout:
         on_press: app.next()                  
 '''
 
-class Test(MDApp):
+class PatientPain(MDApp):
     limb_textfield_ids = {
         "Shoulder": ("shoulder_active_textfield", "shoulder_passive_textfield"),
         "Elbow": ("elbow_active_textfield", "elbow_passive_textfield"),
@@ -163,8 +164,10 @@ class Test(MDApp):
         textfield = self.root.ids.assessment_textfield
         if pain_assessment_type == "Yes" and switch_active:
             textfield.disabled = False
-        else:
+            self.root.ids.no_switch.active = False
+        elif pain_assessment_type == "No" and switch_active:
             textfield.disabled = True
+            self.root.ids.yes_switch.active = False
 
     def set_error_message(self, instance_textfield, value):
         if not instance_textfield.text.strip():
@@ -174,59 +177,59 @@ class Test(MDApp):
             instance_textfield.error = False
             instance_textfield.helper_text = ""
 
+    
     def next(self):
-        # Check if any of the required fields are empty
         assessment_text = self.root.ids.assessment_textfield.text.strip()
+        all_fields_filled = True
         
+
+        # Check if "Yes" is selected, and the assessment text is empty
+        if self.root.ids.yes_switch.active and not assessment_text:
+            self.root.ids.assessment_textfield.error = True
+            self.root.ids.assessment_textfield.helper_text = "Required field"
+            all_fields_filled = False
+        else:
+            # If "No" is selected, clear any previous error messages
+            self.root.ids.assessment_textfield.error = False
+            self.root.ids.assessment_textfield.helper_text = ""
+
+        # Check if all limb range text fields are filled
         for limb, (active_id, passive_id) in self.limb_textfield_ids.items():
             active_range = self.root.ids[active_id].text.strip()
             passive_range = self.root.ids[passive_id].text.strip()
-            
+
+            if not active_range or not passive_range:
+                all_fields_filled = False
+
             if not active_range:
                 self.root.ids[active_id].error = True
                 self.root.ids[active_id].helper_text = "Required field"
             else:
                 self.root.ids[active_id].error = False
                 self.root.ids[active_id].helper_text = ""
-                
+
             if not passive_range:
                 self.root.ids[passive_id].error = True
                 self.root.ids[passive_id].helper_text = "Required field"
             else:
                 self.root.ids[passive_id].error = False
                 self.root.ids[passive_id].helper_text = ""
-        
-        if not assessment_text:
-            self.root.ids.assessment_textfield.error = True
-            self.root.ids.assessment_textfield.helper_text = "Required field"
-        else:
-            self.root.ids.assessment_textfield.error = False
-            self.root.ids.assessment_textfield.helper_text = ""
 
-        if (
-            assessment_text
-            and all(
-                not self.root.ids[active_id].error and not self.root.ids[passive_id].error
-                for active_id, passive_id in self.limb_textfield_ids.values()
-            )
-        ):
-            
-            print(f"Pain Assessment: {assessment_text}")
+        # Print the input if all fields are filled
+        if all_fields_filled:
+            if self.root.ids.no_switch.active:
+                print("Pain Assessment: 0")
+            else:
+                print(f"Pain Assessment: {assessment_text}")
+
             for limb, (active_id, passive_id) in self.limb_textfield_ids.items():
                 active_range = self.root.ids[active_id].text.strip()
                 passive_range = self.root.ids[passive_id].text.strip()
                 print(f"Range of motion for Upper limb :: {limb}:")
                 print(f"Active Range: {active_range}")
                 print(f"Passive Range: {passive_range}")
-        elif not assessment_text :
-            
-            print("Pain Assessment: 0")
-            for limb, (active_id, passive_id) in self.limb_textfield_ids.items():
-                active_range = self.root.ids[active_id].text.strip()
-                passive_range = self.root.ids[passive_id].text.strip()
-                print(f"Range of motion for Upper limb :: {limb}:")
-                print(f"Active Range: {active_range}")
-                print(f"Passive Range: {passive_range}")
+            self.stop()
+            PatientRange().run()        
 
 if __name__ == '__main__':
-    Test().run()
+    PatientPain().run()

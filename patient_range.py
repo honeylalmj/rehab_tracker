@@ -1,11 +1,12 @@
 from kivy.lang import Builder
 from kivymd.app import MDApp
+from patient_muscle_upper import PatientMuscleUpper
 
 KV = '''
 FloatLayout:
     canvas.before:
         Color:
-            rgba: 0.784, 0.784, 0.941, 1.0  # Lavender background color (RGBA values)
+            rgba: 1, 1, 1, 1.0  # White background color (RGBA values)
         Rectangle:
             pos: self.pos
             size: self.size
@@ -115,7 +116,7 @@ FloatLayout:
         on_press: app.next()                  
 '''
 
-class Test(MDApp):
+class PatientRange(MDApp):
     limb_textfield_ids = {
         "Hip": ("hip_active_textfield", "hip_passive_textfield"),
         "Knee": ("knee_active_textfield", "knee_passive_textfield"),
@@ -171,8 +172,10 @@ class Test(MDApp):
                 print(f"Range of motion for Lower limb :: {limb}:")
                 print(f"Active Range: {active_range}")
                 print(f"Passive Range: {passive_range}")
+            self.stop()
+            PatientMuscleUpper().run()       
             
            
 
 if __name__ == '__main__':
-    Test().run()
+    PatientRange().run()
