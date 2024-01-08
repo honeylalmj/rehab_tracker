@@ -1,0 +1,380 @@
+{
+  "6265": {
+    "Personal details ": {
+      "Patient Name": "Honeylal",
+      "Patient Last Name": "MJ",
+      "Age": "32",
+      "Sex": "Male",
+      "House Name": "DVH",
+      "Street Name": "SK",
+      "City": "DK",
+      "Postal Code": "KD",
+      "Patient Email": "mjhoneylal@gmail.com",
+      "Patient Mobile Number": "72e28i28",
+      "Past Medical History": "n,v,dv",
+      "Present Medical History": "hdckevcl"
+    },
+    " 08-01-2024": {
+      "Assessment": {
+        "Date": " 08-01-2024",
+        "Physical Examination": "hdkcvkd"
+      },
+      "Pain assesment": {
+        "VAS value": "0"
+      },
+      "Range of motion for Upper limb": {
+        "Shoulder": {
+          "Active Range (L)": "3",
+          "Active Range (R)": "3",
+          "Passive Range (L)": "3",
+          "Passive Range (R)": "3"
+        },
+        "Elbow": {
+          "Active Range (L)": "3",
+          "Active Range (R)": "3",
+          "Passive Range (L)": "3",
+          "Passive Range (R)": "3"
+        },
+        "Forearm": {
+          "Active Range (L)": "3",
+          "Active Range (R)": "3",
+          "Passive Range (L)": "3",
+          "Passive Range (R)": "3"
+        },
+        "Wrist": {
+          "Active Range (L)": "3",
+          "Active Range (R)": "3",
+          "Passive Range (L)": "3",
+          "Passive Range (R)": "3"
+        },
+        "Fingers": {
+          "Active Range (L)": "3",
+          "Active Range (R)": "3",
+          "Passive Range (L)": "3",
+          "Passive Range (R)": "3"
+        }
+      },
+      "Range of motion of Lower limb": {
+        "Hip": {
+          "Active Range (L)": "3",
+          "Active Range (R)": "3",
+          "Passive Range (L)": "3",
+          "Passive Range (R)": "3"
+        },
+        "Knee": {
+          "Active Range (L)": "3",
+          "Active Range (R)": "3",
+          "Passive Range (L)": "3",
+          "Passive Range (R)": "3"
+        },
+        "Ankle-Foot": {
+          "Active Range (L)": "3",
+          "Active Range (R)": "3",
+          "Passive Range (L)": "3",
+          "Passive Range (R)": "3"
+        },
+        "Neck": {
+          "Active Range (L)": "3",
+          "Active Range (R)": "3",
+          "Passive Range (L)": "3",
+          "Passive Range (R)": "3"
+        },
+        "Trunk": {
+          "Active Range (L)": "3",
+          "Active Range (R)": "3",
+          "Passive Range (L)": "3",
+          "Passive Range (R)": "3"
+        }
+      },
+      "Manual Muscle test for Upper limb": {
+        "shoulder": {
+          "Left": "3",
+          "Right": "3"
+        },
+        "elbow": {
+          "Left": "3",
+          "Right": "3"
+        },
+        "forearm-Foot": {
+          "Left": "3",
+          "Right": "3"
+        },
+        "wrist": {
+          "Left": "3",
+          "Right": "3"
+        },
+        "fingers": {
+          "Left": "3",
+          "Right": "3"
+        }
+      },
+      "Manual Muscle test for Lower limb": {
+        "Hip": {
+          "Left": "3",
+          "Right": "3"
+        },
+        "Knee": {
+          "Left": "3",
+          "Right": "3"
+        },
+        "Ankle-Foot": {
+          "Left": "33",
+          "Right": "3"
+        },
+        "Neck": {
+          "Left": "3",
+          "Right": "3"
+        },
+        "Trunk": {
+          "Left": "3",
+          "Right": "3"
+        }
+      },
+      "Muscle tone test for Upper limb": {
+        "shoulder": {
+          "Left": "3",
+          "Right": "3"
+        },
+        "elbow": {
+          "Left": "3",
+          "Right": "3"
+        },
+        "forearm-Foot": {
+          "Left": "3",
+          "Right": "3"
+        },
+        "wrist": {
+          "Left": "3",
+          "Right": "3"
+        },
+        "fingers": {
+          "Left": "3",
+          "Right": "3"
+        }
+      },
+      "Muscle tone test for Lower limb": {
+        "Hip": {
+          "Left": "3",
+          "Right": "3"
+        },
+        "Knee": {
+          "Left": "3",
+          "Right": "3"
+        },
+        "Ankle-Foot": {
+          "Left": "3",
+          "Right": "3"
+        },
+        "Neck": {
+          "Left": "3",
+          "Right": "3"
+        },
+        "Trunk": {
+          "Left": "3",
+          "Right": "3"
+        }
+      },
+      "Functional evaluation": {
+        "Balance": "mevfef",
+        "Coordination": ",fvr,"
+      },
+      "Gait anaylysis": {
+        "Gait analysis": "egv"
+      },
+      "Activity limitations": {
+        "Activity limitations": "r,g"
+      },
+      "Treatment plan": {
+        "Short term goal": ",vg",
+        "Long term goal": ",gr"
+      },
+      "Treatment": {
+        "Treatment": "rgrgrg"
+      },
+      "Prognosis": {
+        "Prognosis": "Good"
+      }
+    },
+    " 11-01-2024": {
+      "Assessment": {
+        "Date": " 11-01-2024",
+        "Physical Examination": "mbc"
+      },
+      "Pain assesment": {
+        "VAS value": "2"
+      },
+      "Range of motion for Upper limb": {
+        "Shoulder": {
+          "Active Range (L)": "3",
+          "Active Range (R)": "3",
+          "Passive Range (L)": "3",
+          "Passive Range (R)": "3"
+        },
+        "Elbow": {
+          "Active Range (L)": "3",
+          "Active Range (R)": "3",
+          "Passive Range (L)": "3",
+          "Passive Range (R)": "3"
+        },
+        "Forearm": {
+          "Active Range (L)": "3",
+          "Active Range (R)": "3",
+          "Passive Range (L)": "3",
+          "Passive Range (R)": "3"
+        },
+        "Wrist": {
+          "Active Range (L)": "3",
+          "Active Range (R)": "3",
+          "Passive Range (L)": "3",
+          "Passive Range (R)": "3"
+        },
+        "Fingers": {
+          "Active Range (L)": "3",
+          "Active Range (R)": "3",
+          "Passive Range (L)": "3",
+          "Passive Range (R)": "3"
+        }
+      },
+      "Range of motion of Lower limb": {
+        "Hip": {
+          "Active Range (L)": "3",
+          "Active Range (R)": "3",
+          "Passive Range (L)": "3",
+          "Passive Range (R)": "3"
+        },
+        "Knee": {
+          "Active Range (L)": "3",
+          "Active Range (R)": "3",
+          "Passive Range (L)": "3",
+          "Passive Range (R)": "3"
+        },
+        "Ankle-Foot": {
+          "Active Range (L)": "3",
+          "Active Range (R)": "3",
+          "Passive Range (L)": "3",
+          "Passive Range (R)": "3"
+        },
+        "Neck": {
+          "Active Range (L)": "3",
+          "Active Range (R)": "3",
+          "Passive Range (L)": "3",
+          "Passive Range (R)": "3"
+        },
+        "Trunk": {
+          "Active Range (L)": "3",
+          "Active Range (R)": "3",
+          "Passive Range (L)": "3",
+          "Passive Range (R)": "3"
+        }
+      },
+      "Manual Muscle test for Upper limb": {
+        "shoulder": {
+          "Left": "3",
+          "Right": "3"
+        },
+        "elbow": {
+          "Left": "3",
+          "Right": "3"
+        },
+        "forearm-Foot": {
+          "Left": "3",
+          "Right": "3"
+        },
+        "wrist": {
+          "Left": "3",
+          "Right": "3"
+        },
+        "fingers": {
+          "Left": "3",
+          "Right": "3"
+        }
+      },
+      "Manual Muscle test for Lower limb": {
+        "Hip": {
+          "Left": "4",
+          "Right": "4"
+        },
+        "Knee": {
+          "Left": "4",
+          "Right": "4"
+        },
+        "Ankle-Foot": {
+          "Left": "4",
+          "Right": "4"
+        },
+        "Neck": {
+          "Left": "4",
+          "Right": "4"
+        },
+        "Trunk": {
+          "Left": "4",
+          "Right": "4"
+        }
+      },
+      "Muscle tone test for Upper limb": {
+        "shoulder": {
+          "Left": "4",
+          "Right": "4"
+        },
+        "elbow": {
+          "Left": "4",
+          "Right": "4"
+        },
+        "forearm-Foot": {
+          "Left": "4",
+          "Right": "4"
+        },
+        "wrist": {
+          "Left": "4",
+          "Right": "4"
+        },
+        "fingers": {
+          "Left": "4",
+          "Right": "4"
+        }
+      },
+      "Muscle tone test for Lower limb": {
+        "Hip": {
+          "Left": "6",
+          "Right": "6"
+        },
+        "Knee": {
+          "Left": "6",
+          "Right": "6"
+        },
+        "Ankle-Foot": {
+          "Left": "6",
+          "Right": "6"
+        },
+        "Neck": {
+          "Left": "6",
+          "Right": "6"
+        },
+        "Trunk": {
+          "Left": "6",
+          "Right": "6"
+        }
+      },
+      "Functional evaluation": {
+        "Balance": "6",
+        "Coordination": "6"
+      },
+      "Gait anaylysis": {
+        "Gait analysis": "6"
+      },
+      "Activity limitations": {
+        "Activity limitations": "6"
+      },
+      "Treatment plan": {
+        "Short term goal": "6",
+        "Long term goal": "6"
+      },
+      "Treatment": {
+        "Treatment": "6"
+      },
+      "Prognosis": {
+        "Prognosis": "Good"
+      }
+    }
+  }
+}

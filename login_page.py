@@ -4,10 +4,11 @@ from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 from kivymd.icon_definitions import md_icons
 from kivy.core.window import Window
-from account_creation import AccountCreation
-from add_patient import AddPatient
+from home_page import HomePage
 from kivymd.uix.button import MDRaisedButton
 import json
+import os
+import sys
 
 KV = '''
 FloatLayout:
@@ -26,7 +27,7 @@ FloatLayout:
 
     MDTextField:
         id: text_field_error
-        hint_text: "Username"
+        hint_text: "Username or license number"
         mode: "rectangle"
         pos_hint: {"center_x": 0.5,"center_y": 0.7}
         size_hint: 0.5,0.1
@@ -41,14 +42,14 @@ FloatLayout:
     MDRaisedButton:
         text: "login"
         md_bg_color: "green"
-        pos_hint: {"center_x": 0.5, "center_y": 0.45}
-        size_hint:0.1, 0.08
+        pos_hint: {"center_x": 0.49, "center_y": 0.45}
+        size_hint:0.12, 0.08
         on_press : app.login()
 
     MDTextButton:
         text: "Forget Password ?"
         custom_color: "black"  
-        pos_hint: {"center_x": 0.6, "center_y": 0.35}
+        pos_hint: {"center_x": 0.595, "center_y": 0.35}
         size_hint:0.3,0.1  
     MDRoundFlatButton:
         text: "Create new account"
@@ -58,16 +59,23 @@ FloatLayout:
         on_press :  app.create_account()
                
 '''
-
+DEFAULT_LOGIN_ID = None
 class LoginPage(MDApp):
-    def __init__(self,login_id, **kwargs):
+    def __init__(self,login_id = DEFAULT_LOGIN_ID, **kwargs):
         super().__init__(**kwargs)
+        if getattr(sys, 'frozen', False):
+            # Running as a PyInstaller executable
+            base_path = sys._MEIPASS
+        else:
+            # Running as a script
+            base_path = os.path.abspath(".")
+        # script_dir = os.path.dirname(os.path.abspath(__file__))
+        self.json_file_path = os.path.join(base_path,'data.json')
         self.screen = Builder.load_string(KV)
-        
         self.login_id = login_id
 
     def on_start(self):
-        if self.login_id != "None":
+        if self.login_id != DEFAULT_LOGIN_ID:
             self.screen.ids.text_field_error.text = self.login_id
     
     def build(self):
@@ -75,12 +83,12 @@ class LoginPage(MDApp):
 
     def read_data(self):
         try:
-            with open("data.json", "r") as file:
+            with open(self.json_file_path, "r") as file:
                 user_data = json.load(file)
                 data = user_data["111"]
             return data
-        except (FileNotFoundError, KeyError):
-            print("username not found in json")
+        except (FileNotFoundError, KeyError,json.JSONDecodeError):
+            print("username not found")
             return {}
 
     def showlogin_exists__dialog(self):
@@ -98,7 +106,7 @@ class LoginPage(MDApp):
     def handle_login_success_dialog_dismiss(self,dialog):
         dialog.dismiss()
         self.stop()
-        AddPatient().run()
+        HomePage().run()
 
     def showlogin_not_exists_dialog(self):
         dialog = MDDialog(
@@ -141,9 +149,10 @@ class LoginPage(MDApp):
 
     def create_account(self) :
         self.stop()
+        from account_creation import AccountCreation
         AccountCreation().run()
 
 
 
 if __name__ == "__main__":
-    LoginPage("log").run()
+    LoginPage().run()

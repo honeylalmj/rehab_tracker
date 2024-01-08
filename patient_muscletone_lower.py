@@ -1,7 +1,9 @@
 from kivy.lang import Builder
 from kivymd.app import MDApp
 from patient_funct_gait import PatientFunctGait
-
+import json
+import os
+import sys
 
 KV = '''
 FloatLayout:
@@ -11,13 +13,18 @@ FloatLayout:
         Rectangle:
             pos: self.pos
             size: self.size
-
+    MDLabel:
+        text: "Patient Assessment"
+        theme_text_color: "Custom"
+        text_color: "blue"
+        pos_hint: {"center_x": 0.6,"center_y": 0.9}
+        size_hint: 0.3, 0.1
 
     MDLabel:
         text: "Muscle tone test : Lower limb"
         theme_text_color: "Custom"
         text_color: "black"
-        pos_hint: {"center_x": 0.5, "center_y": 0.8}
+        pos_hint: {"center_x": 0.58, "center_y": 0.8}
         size_hint: 0.3, 0.1
     MDLabel:
         text: "Hip :"
@@ -118,6 +125,21 @@ FloatLayout:
 '''
 
 class PatientMuscletoneLower(MDApp):
+
+    def __init__(self,patient_no,date, **kwargs):
+        super().__init__(**kwargs)
+        if getattr(sys, 'frozen', False):
+            # Running as a PyInstaller executable
+            base_path = sys._MEIPASS
+        else:
+            # Running as a script
+            base_path = os.path.abspath(".")
+        # script_dir = os.path.dirname(os.path.abspath(__file__))
+        self.patient_json_file_path = os.path.join(base_path,'patient_data.json')
+        self.patient = patient_no
+        self.date = date
+        self.data = {}
+
     limb_textfield_ids = {
         "Hip": ("hip_left_textfield", "hip_right_textfield"),
         "Knee": ("knee_left_textfield", "knee_right_textfield"),
@@ -128,6 +150,20 @@ class PatientMuscletoneLower(MDApp):
 
     def build(self):
         return Builder.load_string(KV)
+
+    def save_file(self):
+        try:
+            with open(self.patient_json_file_path,'r')as file:
+                existing_data = json.load(file)
+        except (FileNotFoundError, json.JSONDecodeError):
+            existing_data = {}
+        patient_id = str(self.patient)
+
+        if patient_id in existing_data:
+            existing_data[patient_id][self.date].update(self.data)  
+        with open(self.patient_json_file_path,'w') as file :
+            json.dump(existing_data,file, indent=2)
+        file.close()  
 
     def set_error_message(self, instance_textfield, value):
         if not instance_textfield.text.strip():
@@ -166,15 +202,18 @@ class PatientMuscletoneLower(MDApp):
             )
         ):
             
-        
+            muscletone_lower = {}
             for limb, (left_id, right_id) in self.limb_textfield_ids.items():
                 left_range = self.root.ids[left_id].text.strip()
                 right_range = self.root.ids[right_id].text.strip()
-                print(f"Muscle tone test for Lower limb :: {limb}:")
-                print(f"Left: {left_range}")
-                print(f"Right: {right_range}")
+                muscle_tone_lower_asess = {"Left": left_range,
+                                           "Right": right_range}
+                muscletone_lower[limb] = muscle_tone_lower_asess
+            self.data['Muscle tone test for Lower limb'] = muscletone_lower
+            self.save_file()
+            print(self.data)
             self.stop()
-            PatientFunctGait().run()       
+            PatientFunctGait(self.patient,self.date).run()       
             
            
 

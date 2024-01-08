@@ -1,10 +1,10 @@
+import os
 from kivy.lang import Builder
 from kivymd.app import MDApp
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDRaisedButton
-
-
 import json
+import sys
 
 KV = '''
 FloatLayout:
@@ -63,27 +63,62 @@ FloatLayout:
         pos_hint: {"center_x": 0.5, "center_y": 0.2}
         size_hint: 0.1, 0.08
         on_press: app.register()
-'''
+   '''
 
 class AccountCreation(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        if getattr(sys, 'frozen', False):
+            # Running as a PyInstaller executable
+            base_path = sys._MEIPASS
+        else:
+            # Running as a script
+            base_path = os.path.abspath(".")
+        # script_dir = os.path.dirname(os.path.abspath(__file__))
+        self.json_file_path = os.path.join(base_path,'data.json')
+        self.database_file_path = os.path.join(base_path,'database.json')
         self.screen = Builder.load_string(KV)
         self.data = {"111":{}}
 
-    def save_file(self) :
-        with open ("data.json","w") as file :
-            json.dump(self.data,file)
+    def save_file(self):
+        try:
+            with open(self.json_file_path, "r") as file:
+                existing_data = json.load(file)
+            print("JSON data loaded successfully.")
+        except (FileNotFoundError, json.JSONDecodeError):
+            existing_data = {}
+        print("Error loading JSON file")    
 
-            file.close()
+        license_number_main_key = "111" 
 
+        
+        existing_data.setdefault(license_number_main_key, {}).update(self.data.get(license_number_main_key, {}))
+
+        
+        with open(self.json_file_path, "w") as file:
+            json.dump(existing_data, file, indent=2)
+
+
+    def read_data_file(self):
+        try:
+            with open(self.json_file_path,'r')as file:
+                exist_data = json.load(file)
+                old_data = exist_data['111']
+                print("JSON data loaded successfully.")
+                return old_data
+            
+        except(FileNotFoundError, json.JSONDecodeError,KeyError):
+            print("license number not found in data")
+            return{}
+            
     def read_file(self) :
         try:
-            with open("database.json","r") as file :
+            with open(self.database_file_path,"r") as file :
                 user_data = json.load(file)
+                print("JSON data loaded successfully.")
                 data = user_data["222"]
                 return data
-        except(FileNotFoundError, KeyError):
+        except(FileNotFoundError,json.JSONDecodeError, KeyError):
             print("license number not found in database")
             return {}
     def show_license_exists_dialog(self):
@@ -116,9 +151,20 @@ class AccountCreation(MDApp):
             ]
         )
         dialog.open()
+    def license_exists_dialog(self):
+        dialog = MDDialog(
+            text="Entered license number already registered.",
+            buttons=[
+                MDRaisedButton(
+                    text="OK",
+                    on_release=lambda x: self.handle_license_exists_dialog_dismiss(dialog)
+                )
+            ]
+        )
+        dialog.open()    
 
     def build(self):
-        # Bind validation and error handling for text fields
+
         self.screen.ids.text_field_firstname.bind(
             on_text_validate=self.set_error_message,
             on_focus=self.set_error_message,
@@ -143,8 +189,6 @@ class AccountCreation(MDApp):
         return self.screen
 
     def set_error_message(self, instance_textfield):
-        # This function should handle error messages if needed
-        # For example, check if the field is empty and set an error message
 
         if not instance_textfield.text.strip():
             instance_textfield.error = True
@@ -152,6 +196,9 @@ class AccountCreation(MDApp):
         else:
             instance_textfield.error = False
             instance_textfield.helper_text = ""
+
+    
+
 
     def register(self):
         first_name = self.screen.ids.text_field_firstname.text.capitalize()
@@ -168,7 +215,6 @@ class AccountCreation(MDApp):
             "email"      : email
             }
         
-        # Reset error messages for all fields
         self.screen.ids.text_field_firstname.error = False
         self.screen.ids.text_field_lastname.error = False
         self.screen.ids.text_field_licensenumber.error = False
@@ -194,13 +240,16 @@ class AccountCreation(MDApp):
         if not email:
             self.screen.ids.text_field_email.error = True
             self.screen.ids.text_field_email.helper_text = "Required field"
-
+        old_data = self.read_data_file()
         if first_name and last_name and license_number and password and email:
             if license_number in user_database and first_name == user_database[license_number]["first_name"] :
-                self.show_license_exists_dialog()
-                self.data["111"][license_number] = user_data
-                self.save_file()
                 
+                if license_number not in old_data:
+                    self.data["111"][license_number] = user_data
+                    self.save_file()
+                    self.show_license_exists_dialog()
+                else:
+                    self.license_exists_dialog()
             else:
                 self.show_license_not_exists_dialog()
 

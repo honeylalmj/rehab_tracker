@@ -18,6 +18,3 @@ def send_email(name,code,patient_id,email):
        smtp_server.login(sender, password)
        smtp_server.sendmail(sender,email, msg.as_string())
     print("Message sent!")
-
-
-# send_email(subject, body, sender, recipients, password)
