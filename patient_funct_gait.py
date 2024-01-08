@@ -1,7 +1,9 @@
 from kivy.lang import Builder
 from kivymd.app import MDApp
 from patient_treatment import PatientTreatment
-
+import json
+import os
+import sys
 
 KV = '''
 FloatLayout:
@@ -11,14 +13,17 @@ FloatLayout:
         Rectangle:
             pos: self.pos
             size: self.size
-    
+    MDLabel:
+        text: "Patient Assessment"
+        theme_text_color: "Custom"
+        text_color: "blue"
+        pos_hint: {"center_x": 0.6,"center_y": 0.9}
+        size_hint: 0.3, 0.1
     MDLabel:
         text: "Functional evaluation :"
         theme_text_color: "Custom"
         text_color: "black"
         pos_hint: {"center_x": 0.75, "center_y": 0.8}
-   
-    
 
     MDTextField:
         id: balance_textfield
@@ -67,9 +72,20 @@ FloatLayout:
 
 
 class PatientFunctGait(MDApp):
-    def __init__(self, **kwargs):
+    def __init__(self,patient_no,date, **kwargs):
         super().__init__(**kwargs)
+        if getattr(sys, 'frozen', False):
+            # Running as a PyInstaller executable
+            base_path = sys._MEIPASS
+        else:
+            # Running as a script
+            base_path = os.path.abspath(".")
+        # script_dir = os.path.dirname(os.path.abspath(__file__))
+        self.patient_json_file_path = os.path.join(base_path,'patient_data.json')
         self.screen = Builder.load_string(KV)
+        self.patient = patient_no
+        self.date = date
+        self.data = {}
         
   
 
@@ -91,6 +107,20 @@ class PatientFunctGait(MDApp):
             on_text=self.set_error_message, 
         )
         return self.screen
+    
+    def save_file(self):
+        try:
+            with open(self.patient_json_file_path,'r')as file:
+                existing_data = json.load(file)
+        except (FileNotFoundError, json.JSONDecodeError):
+            existing_data = {}
+        patient_id = str(self.patient)
+
+        if patient_id in existing_data:
+            existing_data[patient_id][self.date].update(self.data)  
+        with open(self.patient_json_file_path,'w') as file :
+            json.dump(existing_data,file, indent=2)
+        file.close()  
 
     def set_error_message(self, instance_textfield, value):
         if not instance_textfield.text.strip():
@@ -101,14 +131,12 @@ class PatientFunctGait(MDApp):
             instance_textfield.helper_text = ""
 
     def next(self):
-        # Check if any of the required fields are empty
        
         balance = self.screen.ids.balance_textfield.text.strip()
         coordination = self.screen.ids.coordination_textfield.text.strip()
         gait_analysis = self.screen.ids.gait_textfield.text.strip()
         activity = self.screen.ids.activity_textfield.text.strip()
 
-        # Reset error messages for all fields
        
         self.screen.ids.balance_textfield.error = False
         self.screen.ids.coordination_textfield.error = False
@@ -139,14 +167,17 @@ class PatientFunctGait(MDApp):
             and gait_analysis
             and activity
         ):
-            # Implement your logic to process the input data here
-            # For example, you can print the input data
-            print(f"Functional evaluation :: Balance: {balance}")
-            print(f"Functional evaluation :: Coordination: {coordination}")
-            print(f"Gait anaylysis : {gait_analysis}")
-            print(f"Activity limitations : {activity}")
+            
+            functional_evaluation = {"Balance": balance,
+                                    "Coordination": coordination}
+
+            self.data['Functional evaluation'] = functional_evaluation
+            self.data['Gait anaylysis'] = {'Gait analysis' : gait_analysis}
+            self.data['Activity limitations'] = {'Activity limitations' : activity}
+            self.save_file()
+            print(self.data)
             self.stop()
-            PatientTreatment().run()    
+            PatientTreatment(self.patient,self.date).run()    
             
 if __name__ == "__main__":
     PatientFunctGait().run()
