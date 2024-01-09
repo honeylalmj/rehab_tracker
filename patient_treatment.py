@@ -161,7 +161,7 @@ class PatientTreatment(MDApp):
             instance_textfield.helper_text = ""
     def show_verification_Dialog(self):
         dialog = MDDialog(
-            text="All patient data has been saved successfully",
+            text="All patient data entered has been saved successfully !",
             buttons=[
                 MDRaisedButton(
                     text="OK",

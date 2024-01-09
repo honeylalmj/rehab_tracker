@@ -129,7 +129,7 @@ class PatientPersonalDetails(MDApp):
         else:
             # Running as a script
             base_path = os.path.abspath(".")
-        # script_dir = os.path.dirname(os.path.abspath(__file__))
+        
         self.patient_json_file_path = os.path.join(base_path,'patient_data.json')
         self.screen = Builder.load_string(KV)
         self.verification_code = random.randint(100000,999999)
@@ -244,7 +244,7 @@ class PatientPersonalDetails(MDApp):
 
     def show_verification_Dialog(self):
         dialog = MDDialog(
-            text="Verification code with Patient ID sent successfully",
+            text="Verification code with Patient ID sent successfully !",
             buttons=[
                 MDRaisedButton(
                     text="OK",

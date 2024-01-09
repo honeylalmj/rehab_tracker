@@ -56,9 +56,6 @@ class DisplayPatientDataApp(MDApp):
         from view_patient import ViewPatientScreen
         ViewPatientScreen().run()
 
-
-        
-
     def display_data(self):
         self.root.ids.container.clear_widgets()
 

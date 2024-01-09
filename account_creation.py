@@ -16,7 +16,7 @@ FloatLayout:
             size: self.size
 
     MDLabel:
-        text: "Hi, Physio..."
+        text: "Account Creation"
         theme_text_color: "Custom"
         text_color: "blue"
         pos_hint: {"center_x": 0.6,"center_y": 0.9}
@@ -74,7 +74,7 @@ class AccountCreation(MDApp):
         else:
             # Running as a script
             base_path = os.path.abspath(".")
-        # script_dir = os.path.dirname(os.path.abspath(__file__))
+
         self.json_file_path = os.path.join(base_path,'data.json')
         self.database_file_path = os.path.join(base_path,'database.json')
         self.screen = Builder.load_string(KV)
@@ -121,9 +121,10 @@ class AccountCreation(MDApp):
         except(FileNotFoundError,json.JSONDecodeError, KeyError):
             print("license number not found in database")
             return {}
+        
     def show_license_exists_dialog(self):
         dialog = MDDialog(
-            text="The license number exists in the database.",
+            text="License number is valid, account created successfully !",
             buttons=[
                 MDRaisedButton(
                     text="OK",
@@ -139,10 +140,9 @@ class AccountCreation(MDApp):
         from login_page import LoginPage
         LoginPage(self.screen.ids.text_field_licensenumber.text).run()
 
-
     def show_license_not_exists_dialog(self):
         dialog = MDDialog(
-            text="Entered license number doesn't exist in the database.",
+            text="Invalid entry !",
             buttons=[
                 MDRaisedButton(
                     text="OK",
@@ -153,7 +153,7 @@ class AccountCreation(MDApp):
         dialog.open()
     def license_exists_dialog(self):
         dialog = MDDialog(
-            text="Entered license number already registered.",
+            text="Already registered !",
             buttons=[
                 MDRaisedButton(
                     text="OK",
@@ -196,9 +196,6 @@ class AccountCreation(MDApp):
         else:
             instance_textfield.error = False
             instance_textfield.helper_text = ""
-
-    
-
 
     def register(self):
         first_name = self.screen.ids.text_field_firstname.text.capitalize()
@@ -243,19 +240,16 @@ class AccountCreation(MDApp):
         old_data = self.read_data_file()
         if first_name and last_name and license_number and password and email:
             if license_number in user_database and first_name == user_database[license_number]["first_name"] :
-                
-                if license_number not in old_data:
-                    self.data["111"][license_number] = user_data
-                    self.save_file()
-                    self.show_license_exists_dialog()
-                else:
-                    self.license_exists_dialog()
+                    
+                    if license_number not in old_data:
+                        self.data["111"][license_number] = user_data
+                        self.save_file()
+                        self.show_license_exists_dialog()
+                    else:
+                        self.license_exists_dialog()
             else:
                 self.show_license_not_exists_dialog()
 
-            
-
-            # print(f"Registered: {{firstname: {first_name}, lastname: {last_name}, license number: {license_number}, password: {password}, email: {email}}}")
 
 
 if __name__ == "__main__":
