@@ -37,9 +37,15 @@ FloatLayout:
     MDRaisedButton:
         text: "Proceed"
         md_bg_color: "green"
-        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        pos_hint: {"center_x": 0.6, "center_y": 0.5}
         size_hint: 0.05, 0.05
         on_press: app.login()   
+    MDRaisedButton:
+        text: "Back"
+        md_bg_color: "green"
+        pos_hint: {"center_x": 0.4, "center_y": 0.5}
+        size_hint: 0.05, 0.05
+        on_press: app.back()     
 '''
 
 class ViewPatientScreen(MDApp):
@@ -52,7 +58,7 @@ class ViewPatientScreen(MDApp):
         else:
             # Running as a script
             base_path = os.path.abspath(".")
-        # script_dir = os.path.dirname(os.path.abspath(__file__))
+        
         self.patient_json_file_path = os.path.join(base_path,'patient_data.json')
         self.screen = Builder.load_string(KV)
         
@@ -100,7 +106,7 @@ class ViewPatientScreen(MDApp):
 
     def showlogin_exists__dialog(self, patient_id_no, consult_date):
         dialog = MDDialog(
-            text="Patient ID and consultation date exists",
+            text="Patient ID and Consultation date exists !",
             buttons=[
                 MDRaisedButton(
                     text="OK",
@@ -119,13 +125,13 @@ class ViewPatientScreen(MDApp):
         
     def showlogin_not_exists_dialog(self):
         dialog = MDDialog(
-            text="Entered Patient ID not exists",
+            text="Entered Patient ID or Consultation date not exists !",
             buttons=[
                 MDFlatButton(
                     text="OK",
                     theme_text_color="Custom",
                     text_color=self.theme_cls.primary_color,
-                    on_release=lambda x: dialog.dismiss()  # Add on_release function
+                    on_release=lambda x: dialog.dismiss()
                 ),
             ],
         )
@@ -133,23 +139,22 @@ class ViewPatientScreen(MDApp):
 
     def showlogin_not_exists_data_dialog(self):
         dialog = MDDialog(
-            text="No data available",
+            text="Invalid entry !",
             buttons=[
                 MDFlatButton(
                     text="OK",
                     theme_text_color="Custom",
                     text_color=self.theme_cls.primary_color,
-                    on_release=lambda x: self.handle_login_unsuccess_dialog_dismiss(dialog)  # Add on_release function
+                    on_release=lambda x: dialog.dismiss()
                 ),
             ],
         )
         dialog.open()
 
-    def handle_login_unsuccess_dialog_dismiss(self, dialog):
-        dialog.dismiss()
-        MDApp.get_running_app().root.clear_widgets()
+    def back(self):
+        self.stop()
         from home_page import HomePage
-        HomePage().run()    
+        HomePage().run()
 
     def login(self):
         patient_info = self.read_file()

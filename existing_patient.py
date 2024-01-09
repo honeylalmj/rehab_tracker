@@ -79,7 +79,7 @@ class ExistingPatient(MDApp):
 
     def showlogin_exists__dialog(self,patient_id):
         dialog = MDDialog(
-            text="Patient ID exists",
+            text="Patient ID exists !",
             buttons=[
                 MDRaisedButton(
                     text="OK",
@@ -98,7 +98,7 @@ class ExistingPatient(MDApp):
            
     def showlogin_not_exists_dialog(self):
         dialog = MDDialog(
-                text="Entered Patient ID not exists",
+                text="Entered Patient ID not exists !",
                 buttons=[
                     MDFlatButton(
                         text="OK",
@@ -112,7 +112,7 @@ class ExistingPatient(MDApp):
 
     def showlogin_not_exists_data_dialog(self):
         dialog = MDDialog(
-                text="No data available",
+                text="No data available !",
                 buttons=[
                     MDFlatButton(
                         text="OK",

@@ -192,7 +192,7 @@ class PatientPain(MDApp):
         else:
             # Running as a script
             base_path = os.path.abspath(".")
-        # script_dir = os.path.dirname(os.path.abspath(__file__))
+        
         self.patient_json_file_path = os.path.join(base_path,'patient_data.json')
         self.patient = patient_no
         self.date = date

@@ -53,7 +53,7 @@ class PatientVerification(MDApp):
 
     def showverification_exists__dialog(self):
         dialog = MDDialog(
-            text="Entered Verification code and patient id is correct",
+            text="Entered Verification code and Patient id is correct !",
             buttons=[
                 MDRaisedButton(
                     text="OK",
@@ -70,7 +70,7 @@ class PatientVerification(MDApp):
 
     def showverification_not_exists_dialog(self):
         dialog = MDDialog(
-                text="Entered code is wrong",
+                text="Verification code or Patient id entered is wrong !",
                 buttons=[
                     MDFlatButton(
                         text="OK",

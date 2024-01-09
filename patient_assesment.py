@@ -100,7 +100,7 @@ class PatientAssesment(MDApp):
         else:
             # Running as a script
             base_path = os.path.abspath(".")
-        # script_dir = os.path.dirname(os.path.abspath(__file__))
+
         self.patient_json_file_path = os.path.join(base_path,'patient_data.json')
         self.screen = Builder.load_string(KV)
         self.patient = patient_id

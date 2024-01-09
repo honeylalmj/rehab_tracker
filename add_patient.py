@@ -36,6 +36,13 @@ FloatLayout:
         pos_hint: {"center_x": 0.5, "center_y": 0.5}
         size_hint: 0.1, 0.08
         on_release: app.existing_patient_login()    
+    MDRaisedButton:
+        text: "Back"
+        md_bg_color: "skyblue"
+        pos_hint: {"center_x": 0.5, "center_y": 0.4}
+        size_hint: 0.1, 0.06
+        on_release: app.go_back() 
+
 '''
 
 
@@ -54,13 +61,15 @@ class AddPatient(MDApp):
         from patient_personal_details import PatientPersonalDetails
         PatientPersonalDetails().run()
 
-
     def existing_patient_login(self):
         self.stop()
         from existing_patient import ExistingPatient
         ExistingPatient().run()
 
-
+    def go_back(self):
+        self.stop()
+        from home_page import HomePage
+        HomePage().run()
 
 if __name__ == '__main__':
     AddPatient().run()

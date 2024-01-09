@@ -3,6 +3,7 @@ from kivy.lang import Builder
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.button import MDRectangleFlatIconButton
 from kivy.core.window import Window
+import webbrowser
 
 KV = '''
 FloatLayout:
@@ -37,9 +38,13 @@ FloatLayout:
         md_bg_color: "green"
         pos_hint: {"center_x": 0.5, "center_y": 0.4}
         size_hint:0.1, 0.08
-        on_press : app.view_patient_login()        
-          
-    
+        on_press : app.view_patient_login()
+    MDTextButton:
+        text: "Contact Support"
+        custom_color: "black"  
+        pos_hint: {"center_x": 0.61, "center_y": 0.3}
+        size_hint:0.3,0.1 
+        on_release: app.send_email()          
 
         '''
 
@@ -56,11 +61,15 @@ class HomePage(MDApp):
         self.stop()
         from add_patient import AddPatient
         AddPatient().run()
+
     def view_patient_login(self):
         self.stop()
         from view_patient import ViewPatientScreen
-        ViewPatientScreen().run()    
-
+        ViewPatientScreen().run()
+         
+    def send_email(self):
+        default_email_address = "trackerrehab@gmail.com"
+        webbrowser.open(f"mailto:{default_email_address}?subject=Support%20Required&body=Email%20body%20text")
 
         
      

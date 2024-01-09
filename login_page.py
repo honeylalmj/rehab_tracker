@@ -34,8 +34,10 @@ FloatLayout:
 
     MDTextField:
         id: text_field_error1
-        hint_text: "Password"
+        hint_text: "Enter Password"
         mode: "rectangle"
+        password: True  # Set this property to True for password mode
+        password_mask: "●"  # Optional: Set a custom character for the password mask
         pos_hint: {"center_x": 0.5, "center_y": 0.6}
         size_hint:0.5,0.1
 
@@ -46,15 +48,10 @@ FloatLayout:
         size_hint:0.12, 0.08
         on_press : app.login()
 
-    MDTextButton:
-        text: "Forget Password ?"
-        custom_color: "black"  
-        pos_hint: {"center_x": 0.595, "center_y": 0.35}
-        size_hint:0.3,0.1  
     MDRoundFlatButton:
         text: "Create new account"
         text_color: "black"
-        pos_hint: {"center_x": 0.5, "center_y": 0.2}
+        pos_hint: {"center_x": 0.5, "center_y": 0.3}
         size_hint:0.3,0.1
         on_press :  app.create_account()
                
@@ -69,7 +66,7 @@ class LoginPage(MDApp):
         else:
             # Running as a script
             base_path = os.path.abspath(".")
-        # script_dir = os.path.dirname(os.path.abspath(__file__))
+        
         self.json_file_path = os.path.join(base_path,'data.json')
         self.screen = Builder.load_string(KV)
         self.login_id = login_id
@@ -93,7 +90,7 @@ class LoginPage(MDApp):
 
     def showlogin_exists__dialog(self):
         dialog = MDDialog(
-            text="Login successful",
+            text="Login successful !",
             buttons=[
                 MDRaisedButton(
                     text="OK",
@@ -110,7 +107,7 @@ class LoginPage(MDApp):
 
     def showlogin_not_exists_dialog(self):
         dialog = MDDialog(
-                text="username or password wrong",
+                text="Username or Password wrong !",
                 buttons=[
                     MDFlatButton(
                         text="OK",
@@ -123,7 +120,7 @@ class LoginPage(MDApp):
         dialog.open()
     def showlogin_not_exists_data_dialog(self):
         dialog = MDDialog(
-                text="username or password doesn't exists",
+                text="User not exists,invalid entry !",
                 buttons=[
                     MDFlatButton(
                         text="OK",
@@ -141,9 +138,9 @@ class LoginPage(MDApp):
         user_data = self.read_data()
         if user_data:
             if username in user_data and password == user_data[username]["password"]:
-                self.showlogin_exists__dialog()
+                    self.showlogin_exists__dialog()
             else:
-                self.showlogin_not_exists_dialog()
+                    self.showlogin_not_exists_dialog()
         else:
             self.showlogin_not_exists_data_dialog()
 
