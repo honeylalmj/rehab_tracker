@@ -53,11 +53,9 @@ class ViewPatientScreen(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         if getattr(sys, 'frozen', False):
-            # Running as a PyInstaller executable
-            base_path = sys._MEIPASS
+            base_path = os.path.dirname(sys.executable)
         else:
-            # Running as a script
-            base_path = os.path.abspath(".")
+            base_path = os.path.dirname(__file__)
         
         self.patient_json_file_path = os.path.join(base_path,'patient_data.json')
         self.screen = Builder.load_string(KV)
