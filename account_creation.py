@@ -60,9 +60,15 @@ FloatLayout:
     MDRaisedButton:
         text: "Register"
         md_bg_color: "green"
-        pos_hint: {"center_x": 0.5, "center_y": 0.2}
+        pos_hint: {"center_x": 0.6, "center_y": 0.2}
         size_hint: 0.1, 0.08
         on_press: app.register()
+    MDRaisedButton:
+        text: "Back"
+        md_bg_color: "green"
+        pos_hint: {"center_x": 0.4, "center_y": 0.2}
+        size_hint: 0.1, 0.08
+        on_press: app.back()    
    '''
 
 class AccountCreation(MDApp):
@@ -120,7 +126,11 @@ class AccountCreation(MDApp):
         except(FileNotFoundError,json.JSONDecodeError, KeyError):
             print("license number not found in database")
             return {}
-        
+    def back (self):
+        self.stop()
+        from login_page import LoginPage
+        LoginPage().run()
+
     def show_license_exists_dialog(self):
         dialog = MDDialog(
             text="License number is valid, account created successfully !",
