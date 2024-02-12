@@ -344,12 +344,10 @@ class PatientPersonalDetails(MDApp):
             if self.patient_id not in existing_data:
                 self.patient_detail[self.patient_id] = patient_data
                 print(self.patient_detail)
-            
-
                 self.save_file()
                 self.show_verification_Dialog()
             else:
-              print("Fields are missing or incorrect.")
+              print("Incorrect information.")
 
            
 

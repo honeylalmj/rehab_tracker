@@ -172,8 +172,8 @@ class ViewPatientScreen(MDApp):
 
         if (patient_id_no and (consult_date != "Select Date")) :
             if patient_id_no in patient_info:
-                p = patient_info[patient_id_no]
-                if consult_date in p:
+                patient_data = patient_info[patient_id_no]
+                if consult_date in patient_data:
                     self.showlogin_exists__dialog(patient_id_no, consult_date)
                 else:
                     self.showlogin_not_exists_dialog()
