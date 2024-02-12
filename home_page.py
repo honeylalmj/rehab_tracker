@@ -44,13 +44,13 @@ FloatLayout:
         custom_color: "black"  
         pos_hint: {"center_x": 0.61, "center_y": 0.3}
         size_hint:0.3,0.1 
-        on_release: app.send_email()
+        on_release: app.send_email()          
     MDTextButton:
         text: "AI Support"
         custom_color: "black"  
         pos_hint: {"center_x": 0.625, "center_y": 0.25}
         size_hint:0.3,0.1
-        on_release: app.ai_api()            
+        on_release: app.ai_api()          
 
         '''
 
@@ -80,7 +80,9 @@ class HomePage(MDApp):
     def ai_api(self)  :
         self.stop()
         from ai_assistant import ChatApp
-        ChatApp().run() 
+        ChatApp().run()
+
+     
 
 if __name__ == "__main__":
     HomePage().run()
