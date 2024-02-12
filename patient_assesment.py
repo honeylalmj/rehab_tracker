@@ -149,7 +149,7 @@ class PatientAssesment(MDApp):
 
     def build(self):
         self.screen.ids.date_button.bind(
-            on_release=lambda x: self.show_date_picker(),
+            on_text=self.set_error_message,
         )
         self.screen.ids.textfield_physical.bind(
             on_text=self.set_error_message, 
