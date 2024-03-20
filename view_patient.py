@@ -102,24 +102,24 @@ class ViewPatientScreen(MDApp):
             instance_textfield.helper_text = ""
          
 
-    def showlogin_exists__dialog(self, patient_id_no, consult_date):
+    def showlogin_exists__dialog(self, patient_id_no, consult_date, email_id):
         dialog = MDDialog(
             text="Patient ID and Consultation date exists !",
             buttons=[
                 MDRaisedButton(
                     text="OK",
-                    on_release=lambda x: self.handle_login_success_dialog_dismiss(dialog, patient_id_no, consult_date)
+                    on_release=lambda x: self.handle_login_success_dialog_dismiss(dialog, patient_id_no, consult_date, email_id)
                 )
             ]
         )
         dialog.open()
        
 
-    def handle_login_success_dialog_dismiss(self, dialog, patient_id_no, consult_date):
+    def handle_login_success_dialog_dismiss(self, dialog, patient_id_no, consult_date, email):
         dialog.dismiss()
         MDApp.get_running_app().root.clear_widgets()
         from view_data import DisplayPatientDataApp
-        DisplayPatientDataApp(patient_id_no, consult_date).run()
+        DisplayPatientDataApp(patient_id_no, consult_date, email).run()
         
     def showlogin_not_exists_dialog(self):
         dialog = MDDialog(
@@ -171,16 +171,15 @@ class ViewPatientScreen(MDApp):
             self.screen.ids.date_button.helper_text = "Required field"
 
         if (patient_id_no and (consult_date != "Select Date")) :
-            if patient_id_no in patient_info:
-                patient_data = patient_info[patient_id_no]
-                if consult_date in patient_data:
-                    self.showlogin_exists__dialog(patient_id_no, consult_date)
-                else:
-                    self.showlogin_not_exists_dialog()
-            else:
-                    self.showlogin_not_exists_dialog()        
+            email_ids = patient_info.keys()
+            for email_id in email_ids:
+                patient_data = patient_info[email_id]
+                if patient_id_no in patient_data:
+                    if consult_date in patient_data[patient_id_no]:
+                        self.showlogin_exists__dialog(patient_id_no, consult_date,email_id)
+                        return
+            self.showlogin_not_exists_dialog()
         else:
             self.showlogin_not_exists_data_dialog()
-
 if __name__ == '__main__':
     ViewPatientScreen().run()

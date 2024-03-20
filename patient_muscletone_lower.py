@@ -126,7 +126,7 @@ FloatLayout:
 
 class PatientMuscletoneLower(MDApp):
 
-    def __init__(self,patient_no,date, **kwargs):
+    def __init__(self,patient_no,date,email, **kwargs):
         super().__init__(**kwargs)
         if getattr(sys, 'frozen', False):
             base_path = os.path.dirname(sys.executable)
@@ -135,6 +135,7 @@ class PatientMuscletoneLower(MDApp):
         self.patient_json_file_path = os.path.join(base_path,'patient_data.json')
         self.patient = patient_no
         self.date = date
+        self.email = email
         self.data = {}
 
     limb_textfield_ids = {
@@ -155,9 +156,10 @@ class PatientMuscletoneLower(MDApp):
         except (FileNotFoundError, json.JSONDecodeError):
             existing_data = {}
         patient_id = str(self.patient)
+        email = self.email
 
-        if patient_id in existing_data:
-            existing_data[patient_id][self.date].update(self.data)  
+        if email in existing_data and patient_id in existing_data[email]:
+            existing_data[email][patient_id][self.date].update(self.data)  
         with open(self.patient_json_file_path,'w') as file :
             json.dump(existing_data,file, indent=2)
         file.close()  
@@ -210,7 +212,7 @@ class PatientMuscletoneLower(MDApp):
             self.save_file()
             print(self.data)
             self.stop()
-            PatientFunctGait(self.patient,self.date).run()       
+            PatientFunctGait(self.patient,self.date,self.email).run()       
             
            
 

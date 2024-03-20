@@ -40,11 +40,12 @@ FloatLayout:
 '''
 
 class PatientVerification(MDApp):
-    def __init__(self,verification,patient_id, **kwargs):
+    def __init__(self,verification,patient_id,email, **kwargs):
         super().__init__(**kwargs)
         self.screen = Builder.load_string(KV)
         self.verification = verification
-        self.patient_id = patient_id 
+        self.patient_id = patient_id
+        self.email = email
     
 
     def build(self):
@@ -66,7 +67,7 @@ class PatientVerification(MDApp):
     def handle_verification_success_dialog_dismiss(self,dialog):
         dialog.dismiss()
         self.stop()
-        PatientHistory(self.patient_id).run()
+        PatientHistory(self.patient_id,self.email).run()
 
     def showverification_not_exists_dialog(self):
         dialog = MDDialog(

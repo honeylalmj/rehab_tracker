@@ -29,152 +29,152 @@ FloatLayout:
         text: "Shoulder :"
         theme_text_color: "Custom"
         text_color: "black"
-        pos_hint: {"center_x": 0.45, "center_y": 0.7}
+        pos_hint: {"center_x": 0.4, "center_y": 0.7}
         size_hint: 0.3, 0.1
     MDTextField:
         id: shoulder_active_textfield_l
         hint_text: "Active range (L)"
         multiline: True
-        pos_hint: {"center_x": 0.4, "center_y": 0.7}
-        size_hint: 0.05, 0.08
+        pos_hint: {"center_x": 0.38, "center_y": 0.7}
+        size_hint: 0.1, 0.1
     MDTextField:
         id: shoulder_active_textfield_r
         hint_text: "Active range (R)"
         multiline: True
         pos_hint: {"center_x": 0.5, "center_y": 0.7}
-        size_hint: 0.05, 0.08    
+        size_hint: 0.1, 0.1   
     MDTextField:
         id: shoulder_passive_textfield_l
         hint_text: "Passive range (L)"
         multiline: True
-        pos_hint: {"center_x": 0.6, "center_y": 0.7}
-        size_hint: 0.05, 0.08
+        pos_hint: {"center_x": 0.62, "center_y": 0.7}
+        size_hint: 0.1, 0.1
     MDTextField:
         id: shoulder_passive_textfield_r
         hint_text: "Passive range (R)"
         multiline: True
-        pos_hint: {"center_x": 0.7, "center_y": 0.7}
-        size_hint: 0.05, 0.08    
+        pos_hint: {"center_x": 0.74, "center_y": 0.7}
+        size_hint: 0.1, 0.1   
     MDLabel:
         text: "Elbow :"
         theme_text_color: "Custom"
         text_color: "black"
-        pos_hint: {"center_x": 0.45, "center_y": 0.6}
+        pos_hint: {"center_x": 0.4, "center_y": 0.6}
         size_hint: 0.3, 0.1
     MDTextField:
         id: elbow_active_textfield_l
         hint_text: "Active range (L)"
         multiline: True
-        pos_hint: {"center_x": 0.4, "center_y": 0.6}
-        size_hint: 0.05, 0.08
+        pos_hint: {"center_x": 0.38, "center_y": 0.6}
+        size_hint: 0.1, 0.1
     MDTextField:
         id: elbow_active_textfield_r
         hint_text: "Passive range (R)"
         multiline: True
         pos_hint: {"center_x": 0.5, "center_y": 0.6}
-        size_hint: 0.05, 0.08
+        size_hint: 0.1, 0.1
     MDTextField:
         id: elbow_passive_textfield_l
         hint_text: "Active range (L)"
         multiline: True
-        pos_hint: {"center_x": 0.6, "center_y": 0.6}
-        size_hint: 0.05, 0.08
+        pos_hint: {"center_x": 0.62, "center_y": 0.6}
+        size_hint: 0.1, 0.1
     MDTextField:
         id: elbow_passive_textfield_r
         hint_text: "Passive range (R)"
         multiline: True
-        pos_hint: {"center_x": 0.7, "center_y": 0.6}
-        size_hint: 0.05, 0.08    
+        pos_hint: {"center_x": 0.74, "center_y": 0.6}
+        size_hint: 0.1, 0.1    
     MDLabel:
         text: "Forearm :"
         theme_text_color: "Custom"
         text_color: "black"
-        pos_hint: {"center_x": 0.45, "center_y": 0.5}
+        pos_hint: {"center_x": 0.4, "center_y": 0.5}
         size_hint: 0.3, 0.1
     MDTextField:
         id: forearm_active_textfield_l
         hint_text: "Active range (L)"
         multiline: True
-        pos_hint: {"center_x": 0.4, "center_y": 0.5}
-        size_hint: 0.05, 0.08
+        pos_hint: {"center_x": 0.38, "center_y": 0.5}
+        size_hint: 0.1, 0.1
     MDTextField:
         id: forearm_active_textfield_r
         hint_text: "Active range (R)"
         multiline: True
         pos_hint: {"center_x": 0.5, "center_y": 0.5}
-        size_hint: 0.05, 0.08    
+        size_hint: 0.1, 0.1   
     MDTextField:
         id: forearm_passive_textfield_l
         hint_text: "Passive range (L)"
         multiline: True
-        pos_hint: {"center_x": 0.6, "center_y": 0.5}
-        size_hint: 0.05, 0.08
+        pos_hint: {"center_x": 0.62, "center_y": 0.5}
+        size_hint: 0.1, 0.1
     MDTextField:
         id: forearm_passive_textfield_r
         hint_text: "Passive range (R)"
         multiline: True
-        pos_hint: {"center_x": 0.7, "center_y": 0.5}
-        size_hint: 0.05, 0.08    
+        pos_hint: {"center_x": 0.74, "center_y": 0.5}
+        size_hint: 0.1, 0.1   
     MDLabel:
         text: "Wrist :"
         theme_text_color: "Custom"
         text_color: "black"
-        pos_hint: {"center_x": 0.45, "center_y": 0.4}
+        pos_hint: {"center_x": 0.4, "center_y": 0.4}
         size_hint: 0.3, 0.1
     MDTextField:
         id: wrist_active_textfield_l
         hint_text: "Active range (L)"
         multiline: True
-        pos_hint: {"center_x": 0.4, "center_y": 0.4}
-        size_hint: 0.05, 0.08
+        pos_hint: {"center_x": 0.38, "center_y": 0.4}
+        size_hint: 0.1, 0.1
     MDTextField:
         id: wrist_active_textfield_r
         hint_text: "Active range (R)"
         multiline: True
         pos_hint: {"center_x": 0.5, "center_y": 0.4}
-        size_hint: 0.05, 0.08    
+        size_hint: 0.1, 0.1   
     MDTextField:
         id: wrist_passive_textfield_l
         hint_text: "Passive range (L)"
         multiline: True
-        pos_hint: {"center_x": 0.6, "center_y": 0.4}
-        size_hint: 0.05, 0.08
+        pos_hint: {"center_x": 0.62, "center_y": 0.4}
+        size_hint: 0.1, 0.1
     MDTextField:
         id: wrist_passive_textfield_r
         hint_text: "Passive range (R)"
         multiline: True
-        pos_hint: {"center_x": 0.7, "center_y": 0.4}
-        size_hint: 0.05, 0.08    
+        pos_hint: {"center_x": 0.74, "center_y": 0.4}
+        size_hint: 0.1, 0.1   
     MDLabel:
         text: "Fingers :"
         theme_text_color: "Custom"
         text_color: "black"
-        pos_hint: {"center_x": 0.45, "center_y": 0.3}
+        pos_hint: {"center_x": 0.4, "center_y": 0.3}
         size_hint: 0.3, 0.1
     MDTextField:
         id: finger_active_textfield_l
         hint_text: "Active range (L)"
         multiline: True
-        pos_hint: {"center_x": 0.4, "center_y": 0.3}
-        size_hint: 0.05, 0.08
+        pos_hint: {"center_x": 0.38, "center_y": 0.3}
+        size_hint: 0.1, 0.1
     MDTextField:
         id: finger_active_textfield_r
         hint_text: "Active range (R)"
         multiline: True
         pos_hint: {"center_x": 0.5, "center_y": 0.3}
-        size_hint: 0.05, 0.08    
+        size_hint: 0.1, 0.1   
     MDTextField:
         id: finger_passive_textfield_l
         hint_text: "Passive range (L)"
         multiline: True
-        pos_hint: {"center_x": 0.6, "center_y": 0.3}
-        size_hint: 0.05, 0.08 
+        pos_hint: {"center_x": 0.62, "center_y": 0.3}
+        size_hint: 0.1, 0.1
     MDTextField:
         id: finger_passive_textfield_r
         hint_text: "Passive range (R)"
         multiline: True
-        pos_hint: {"center_x": 0.7, "center_y": 0.3}
-        size_hint: 0.05, 0.08     
+        pos_hint: {"center_x": 0.74, "center_y": 0.3}
+        size_hint: 0.1, 0.1    
     MDRaisedButton:
         text: "Next"
         md_bg_color: "green"
@@ -184,7 +184,7 @@ FloatLayout:
 '''
 
 class PatientPain(MDApp):
-    def __init__(self,patient_no,date,**kwargs):
+    def __init__(self,patient_no,date,email,**kwargs):
         super().__init__(**kwargs)
         if getattr(sys, 'frozen', False):
             base_path = os.path.dirname(sys.executable)
@@ -194,6 +194,7 @@ class PatientPain(MDApp):
         self.patient_json_file_path = os.path.join(base_path,'patient_data.json')
         self.patient = patient_no
         self.date = date
+        self.email = email
         self.data = {}
         
   
@@ -216,9 +217,10 @@ class PatientPain(MDApp):
         except (FileNotFoundError, json.JSONDecodeError):
             existing_data = {}
         patient_id = str(self.patient)
+        email = self.email
 
-        if patient_id in existing_data:
-            existing_data[patient_id][self.date].update(self.data)  
+        if email in existing_data and patient_id in existing_data [email]:
+            existing_data[email][patient_id][self.date].update(self.data)  
         with open(self.patient_json_file_path,'w') as file :
             json.dump(existing_data,file, indent=2)
         file.close()    
@@ -234,7 +236,7 @@ class PatientPain(MDApp):
 
     def nextpage(self):
         self.stop()
-        PatientRange(self.patient,self.date).run()  
+        PatientRange(self.patient,self.date,self.email).run()  
 
     def next(self):
 
