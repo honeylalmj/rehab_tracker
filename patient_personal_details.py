@@ -239,22 +239,33 @@ class PatientPersonalDetails(MDApp):
             instance_textfield.error = False
             instance_textfield.helper_text = ""
 
-    def show_verification_Dialog(self):
+    def show_verification_Dialog(self,email):
         dialog = MDDialog(
             text="Verification code with Patient ID sent successfully !",
             buttons=[
                 MDRaisedButton(
                     text="OK",
-                    on_release=lambda x: self.handle_verification_success_dialog_dismiss(dialog)
+                    on_release=lambda x: self.handle_verification_success_dialog_dismiss(dialog,email)
                 )
             ]
         )
         dialog.open()
-    
-    def handle_verification_success_dialog_dismiss(self,dialog):
+    def showlogin_not_exists_data_dialog(self):
+        dialog = MDDialog(
+            text="Patient already exists with the data provided !",
+            buttons=[
+                MDRaisedButton(
+                    text="OK",
+                    on_release=lambda x: dialog.dismiss()
+                ),
+            ],
+        )
+        dialog.open()
+
+    def handle_verification_success_dialog_dismiss(self,dialog,email):
         dialog.dismiss()
         self.stop() 
-        PatientVerification(self.verification_code,self.patient_id).run()
+        PatientVerification(self.verification_code,self.patient_id,email).run()
     def next(self):
     
         patient_name = self.screen.ids.text_field_patientname.text.strip()
@@ -339,15 +350,19 @@ class PatientPersonalDetails(MDApp):
                             "Postal Code": postal_code,
                             "Patient Email": patient_email,
                             "Patient Mobile Number": patient_mobile_number}}
-            
-            send_email(patient_name,self.verification_code,self.patient_id,patient_email)
-            if self.patient_id not in existing_data:
-                self.patient_detail[self.patient_id] = patient_data
+            if patient_email not in existing_data:
+                send_email(patient_name, self.verification_code, self.patient_id, patient_email)
+                # Proceed only if patient_email is not in existing_data
+                self.patient_detail[patient_email] = {self.patient_id: patient_data}
                 print(self.patient_detail)
                 self.save_file()
-                self.show_verification_Dialog()
+                self.show_verification_Dialog(patient_email)
             else:
-              print("Incorrect information.")
+                # If patient_email is found in existing_data, it means the patient already exists
+                self.showlogin_not_exists_data_dialog()
+
+
+            
 
            
 

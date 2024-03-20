@@ -74,24 +74,24 @@ class ExistingPatient(MDApp):
             instance_textfield.error = False
             instance_textfield.helper_text = ""
 
-    def showlogin_exists__dialog(self,patient_id):
+    def showlogin_exists__dialog(self,patient_id,email_id):
         dialog = MDDialog(
             text="Patient ID exists !",
             buttons=[
                 MDRaisedButton(
                     text="OK",
-                    on_release=lambda x: self.handle_login_success_dialog_dismiss(dialog,patient_id)
+                    on_release=lambda x: self.handle_login_success_dialog_dismiss(dialog,patient_id,email_id)
                 )
             ]
         )
         dialog.open()
     
-    def handle_login_success_dialog_dismiss(self,dialog,patient_no):
+    def handle_login_success_dialog_dismiss(self,dialog,patient_no,email):
 
         dialog.dismiss()
         self.stop()
         from patient_assesment import PatientAssesment
-        PatientAssesment(patient_no).run()
+        PatientAssesment(patient_no,email).run()
            
     def showlogin_not_exists_dialog(self):
         dialog = MDDialog(
@@ -128,7 +128,7 @@ class ExistingPatient(MDApp):
         HomePage().run()
 
     def login(self):
-        patient_existing_id = self.read_file()
+        patient_existing_data = self.read_file()
         patient_id_no = self.screen.ids.patient_id.text.strip()
 
         self.screen.ids.patient_id.error = False
@@ -137,11 +137,12 @@ class ExistingPatient(MDApp):
             self.screen.ids.patient_id.error = True
             self.screen.ids.patient_id.helper_text = "Required field"
             
-        if patient_existing_id :
-            if patient_id_no in patient_existing_id :
-                self.showlogin_exists__dialog(patient_id_no)
-            else:
-                self.showlogin_not_exists_dialog()  
+        if patient_existing_data :
+            for email_id, patient_data in patient_existing_data.items():
+                if patient_id_no in patient_data :
+                    self.showlogin_exists__dialog(patient_id_no,email_id)
+                    return
+            self.showlogin_not_exists_dialog()  
         else:
             self.showlogin_not_exists_data_dialog()       
   

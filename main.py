@@ -1,5 +1,5 @@
-from welcome_page import MainApp
+from login_page import LoginPage
 
 
-MainApp().run()
+LoginPage().run()
 

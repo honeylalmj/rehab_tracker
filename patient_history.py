@@ -52,7 +52,7 @@ FloatLayout:
 '''
 
 class PatientHistory(MDApp):
-    def __init__(self,patient_id, **kwargs):
+    def __init__(self,patient_id,email, **kwargs):
         super().__init__(**kwargs)
         if getattr(sys, 'frozen', False):
             base_path = os.path.dirname(sys.executable)
@@ -61,6 +61,7 @@ class PatientHistory(MDApp):
         self.patient_json_file_path = os.path.join(base_path,'patient_data.json')
         self.screen = Builder.load_string(KV)
         self.patient = patient_id
+        self.email = email
         self.data = {}
 
 
@@ -72,9 +73,10 @@ class PatientHistory(MDApp):
             existing_data = {}
 
         patient_id = str(self.patient)
+        email = self.email
 
-        if patient_id in existing_data:
-            existing_data[patient_id]["Personal details "].update(self.data)
+        if email in existing_data and patient_id in existing_data[email]:
+            existing_data[email][patient_id]["Personal details "].update(self.data)
         print(existing_data)
 
 
@@ -107,7 +109,7 @@ class PatientHistory(MDApp):
 
     def nextpage(self):
         self.stop()
-        PatientAssesment(self.patient).run()
+        PatientAssesment(self.patient,self.email).run()
 
     def next(self):
         

@@ -52,9 +52,13 @@ BoxLayout:
 '''
 
 class ChatApp(MDApp):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.screen = Builder.load_string(KV)
+
     def build(self):
-        return Builder.load_string(KV)
-    
+        return self.screen
+
     def send_message(self):
         user_input = self.root.ids.user_input.text.strip()
         if user_input:
@@ -80,7 +84,7 @@ class ChatApp(MDApp):
         assistant = client.chat.completions.create(
             model="local-model", 
             messages=[
-                {"role": "system", "content": "You are a helpful assistant for physiotherapy."},
+                {"role": "system", "content": "pretend that you are an expert in physiotherapy, only respond to physiotherapy related questions else show you dont know"},
                 {"role": "user", "content": user_input}
             ]
         )

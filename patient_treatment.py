@@ -80,7 +80,7 @@ class IconListItem(OneLineIconListItem):
 
 
 class PatientTreatment(MDApp):
-    def __init__(self,patient_no,date, **kwargs):
+    def __init__(self,patient_no,date,email, **kwargs):
         super().__init__(**kwargs)
         if getattr(sys, 'frozen', False):
             base_path = os.path.dirname(sys.executable)
@@ -90,6 +90,7 @@ class PatientTreatment(MDApp):
         self.screen = Builder.load_string(KV)
         self.patient = patient_no
         self.date = date
+        self.email = email
         self.data = {}
 
         menu_items = [
@@ -142,9 +143,10 @@ class PatientTreatment(MDApp):
         except (FileNotFoundError, json.JSONDecodeError):
             existing_data = {}
         patient_id = str(self.patient)
+        email = self.email
 
-        if patient_id in existing_data:
-            existing_data[patient_id][self.date].update(self.data)  
+        if email in existing_data and patient_id in existing_data[email]:
+            existing_data[email][patient_id][self.date].update(self.data)  
         with open(self.patient_json_file_path,'w') as file :
             json.dump(existing_data,file, indent=2)
         file.close()  
