@@ -133,7 +133,7 @@ class AccountCreation(MDApp):
 
     def show_license_exists_dialog(self):
         dialog = MDDialog(
-            text="License number is valid, account created successfully !",
+            text="License number is valid, Sign Up Successful!",
             buttons=[
                 MDRaisedButton(
                     text="OK",
@@ -151,7 +151,7 @@ class AccountCreation(MDApp):
 
     def show_license_not_exists_dialog(self):
         dialog = MDDialog(
-            text="Invalid entry !",
+            text="ID number not recognized !",
             buttons=[
                 MDRaisedButton(
                     text="OK",
