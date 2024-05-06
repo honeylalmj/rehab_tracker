@@ -85,9 +85,16 @@ FloatLayout:
     MDRaisedButton:
         text: "Next"
         md_bg_color: "green"
-        pos_hint: {"center_x": 0.5, "center_y": 0.2}
+        pos_hint: {"center_x": 0.6, "center_y": 0.2}
         size_hint: 0.1, 0.08
         on_press: app.next()
+
+    MDRaisedButton:
+        text: "Home"
+        md_bg_color: "green"
+        pos_hint: {"center_x": 0.4, "center_y": 0.2}
+        size_hint: 0.1, 0.08
+        on_press: app.home()    
              
 '''
 
@@ -173,6 +180,13 @@ class PatientAssesment(MDApp):
     def nextpage(self,date):
         self.stop()
         PatientPain(self.patient,date,self.email).run()
+
+    def home(self):
+        self.stop()
+        from home_page import HomePage
+        HomePage().run()
+
+
 
     def next(self):
         
