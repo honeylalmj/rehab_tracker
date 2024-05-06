@@ -77,11 +77,6 @@ class HomePage(MDApp):
         default_email_address = "trackerrehab@gmail.com"
         webbrowser.open(f"mailto:{default_email_address}?subject=Support%20Required&body=Email%20body%20text")
 
-    # def ai_api(self):
-    #     self.stop()
-    #     from ai_assistant import ChatApp
-    #     ChatApp().run()
-
      
 
 if __name__ == "__main__":
